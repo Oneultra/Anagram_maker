@@ -1,117 +1,124 @@
 package ua.com.foxminded.anagrams;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AnagramMakerTest {
+class AnagramMakerTest {
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsOneNonLetter() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsOneNonLetter() {
         String expected = "d0lrW";
         String actual = AnagramMaker.makeAnagram("W0rld");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsOneLetter() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsOneLetter() {
         String expected = "222E22";
         String actual = AnagramMaker.makeAnagram("222E22");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsTheSameLetter() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsTheSameLetter() {
         String expected = "HHHHHHH";
         String actual = AnagramMaker.makeAnagram("HHHHHHH");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsTheSameNonLetter() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsTheSameNonLetter() {
         String expected = "7777";
         String actual = AnagramMaker.makeAnagram("7777");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsDifferentLetter() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsDifferentLetter() {
         String expected = "ytrewq";
         String actual = AnagramMaker.makeAnagram("qwerty");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsDifferentNonLetter() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsDifferentNonLetter() {
         String expected = "12345";
         String actual = AnagramMaker.makeAnagram("12345");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContainsDifferentLetterCase() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContainsDifferentLetterCase() {
         String expected = "oLlEh";
         String actual = AnagramMaker.makeAnagram("hElLo");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContains2Or3LetteredWords() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContains2Or3LetteredWords() {
         String expected = "olleH lufituaeb dlrow";
         String actual = AnagramMaker.makeAnagram("Hello beautiful world");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContains2Or3NonLetteredWords() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContains2Or3NonLetteredWords() {
         String expected = "*^&$221 (*77 12223";
         String actual = AnagramMaker.makeAnagram("*^&$221 (*77 12223");
 
-        assertEquals(expected, actual);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnAnagramWhenSentenceContains2Or3NDifferentWords() {
+    void makeAnagramShouldReturnAnagramWhenSentenceContains2Or3NDifferentWords() {
         String expected = "L3lH0 lu4ft1ueb d0r1w";
         String actual = AnagramMaker.makeAnagram("H3lL0 be4ut1ful w0r1d");
 
-        assertEquals(expected, actual);
-    }
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
-    @Test
-    public void makeAnagramShouldReturnIllegalArgumentExceptionIfSentenceIsNull() {
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Sentence is null");
-
-        AnagramMaker.makeAnagram(null);
+        assertThat(expected, is(equalTo(actual)));
     }
 
     @Test
-    public void makeAnagramShouldReturnIllegalArgumentExceptionIfSentenceIsEmpty() {
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Sentence is empty");
+    void makeAnagramShouldReturnIllegalArgumentExceptionIfSentenceIsNull() {
+        String expected = "Sentence is null";
+        String actual = null;
 
-        AnagramMaker.makeAnagram("");
+        Throwable thrownException = assertThrows(IllegalArgumentException.class,
+                () -> AnagramMaker.makeAnagram(actual));
+
+        assertThat(expected, is(equalTo(thrownException.getMessage())));
     }
 
     @Test
-    public void makeAnagramShouldReturnIllegalArgumentExceptionIfSentenceContainsTabs() {
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("Sentence contains only tabulations");
+    void makeAnagramShouldReturnIllegalArgumentExceptionIfSentenceIsEmpty() {
+        String expected = "Sentence is empty";
+        String actual = "";
 
-        AnagramMaker.makeAnagram("\t");
+        Throwable thrownException = assertThrows(IllegalArgumentException.class,
+                () -> AnagramMaker.makeAnagram(actual));
+
+        assertThat(expected, is(equalTo(thrownException.getMessage())));
+    }
+
+    @Test
+    void makeAnagramShouldReturnIllegalArgumentExceptionIfSentenceContainsTabs() {
+        String expected = "Sentence contains only tabulations";
+        String actual = "\t";
+
+        Throwable thrownException = assertThrows(IllegalArgumentException.class,
+                () -> AnagramMaker.makeAnagram(actual));
+
+        assertThat(expected, is(equalTo(thrownException.getMessage())));
     }
 }
